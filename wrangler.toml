@@ -1,3 +1,8 @@
 name = "akasha"
 main = "src/index.ts"
 compatibility_date = "2022-12-28"
+
+[vars]
+# The necessary secrets are:
+# - RAKUTEN_APP_ID
+# Run `echo <VALUE> | wrangler secret put <NAME>` for each of these

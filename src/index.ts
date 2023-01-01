@@ -1,30 +1,66 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `wrangler dev src/index.ts` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `wrangler publish src/index.ts --name my-worker` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { Hono } from "hono";
+import { poweredBy } from "hono/powered-by";
+import { prettyJSON } from "hono/pretty-json";
+import { validator } from "hono/validator";
 
-export interface Env {
-	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace;
-	//
-	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-	// MY_DURABLE_OBJECT: DurableObjectNamespace;
-	//
-	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
-	// MY_BUCKET: R2Bucket;
-}
+import { getBookInfo } from "./librarian";
+import { schema as envSchema } from "./schema/env";
 
-export default {
-	async fetch(
-		request: Request,
-		env: Env,
-		ctx: ExecutionContext
-	): Promise<Response> {
-		return new Response("Hello World!");
-	},
-};
+const app = new Hono();
+
+app.use("*", poweredBy());
+app.use("*", prettyJSON());
+
+app.post("/shelf", async (c) => {
+  return c.json({ todo: "本棚を作る" });
+});
+
+app
+  .get("/shelf/:shelf{[0-9a-f]+}", (c) => {
+    return c.json({ todo: "本棚の情報を返す" });
+  })
+  .put(async (c) => {
+    return c.json({ todo: "本棚の情報を編集する" });
+  })
+  .delete((c) => {
+    return c.json({ todo: "本棚を削除する" });
+  });
+
+app
+  .post(
+    "/shelf/:shelf{[0-9a-f]+}/book",
+    validator((v) => ({
+      isbn: v
+        .body("content")
+        .isRequired()
+        .match(/^(978|979)[0-9]{10}$/)
+        .message("書籍のISBN-13ではありません。"),
+    })),
+    async (c) => {
+      try {
+        const isbn = c.req.valid().isbn;
+        const book = await getBookInfo(isbn, envSchema.parse(c.env));
+        // TODO: D1に本を登録する
+        return c.text(
+          book === null
+            ? `本の情報がありませんでした。ISBN:${isbn}のみ登録します。`
+            : `「${book.title}」を登録しました。`
+        );
+      } catch (e) {
+        return c.text(`エラーが発生しました: ${e}`);
+      }
+    }
+  )
+  .get((c) => {
+    return c.json({ todo: "本の一覧を返す" });
+  });
+
+app
+  .get("/shelf/:shelf{[0-9a-f]+}/book/:isbn{[0-9]+}", async (c) => {
+    return c.json({ todo: "本の情報を返す" });
+  })
+  .delete((c) => {
+    return c.json({ todo: "本を削除する" });
+  });
+
+export default app;
