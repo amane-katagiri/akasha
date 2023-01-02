@@ -6,3 +6,9 @@ compatibility_date = "2022-12-28"
 # The necessary secrets are:
 # - RAKUTEN_APP_ID
 # Run `echo <VALUE> | wrangler secret put <NAME>` for each of these
+
+[[d1_databases]]
+binding = "DB"
+# Set your own D1 database info
+database_name = "akasha"
+database_id = "55deebf3-4b11-40f1-9493-11bc29225d8b"
