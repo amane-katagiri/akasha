@@ -1,4 +1,5 @@
-import { Hono } from "hono";
+import { Context, Hono, Next } from "hono";
+import { bearerAuth } from "hono/bearer-auth";
 import { poweredBy } from "hono/powered-by";
 import { prettyJSON } from "hono/pretty-json";
 import { validator } from "hono/validator";
@@ -22,36 +23,65 @@ const ISBN_PARAM_NAME = ":isbn{[0-9]+}";
 
 const getD1ErrorCode = (e: unknown) => (e as D1Error)?.cause?.code ?? `${e}`;
 
-app.post(
-  "/shelf",
-  validator((v) => ({
-    name: v.body("name").isRequired().message("本棚の名前がありません。"),
-  })),
-  async (c) => {
-    const shelfId = uuidv4();
-    const shelfName = c.req.valid().name;
-    try {
-      await c.env.DB.prepare(
-        `INSERT INTO shelves (shelf_id, shelf_name, acl_group_id)
+const adminAuth = async (
+  c: Context,
+  next: Next
+): Promise<Response | undefined | void> =>
+  await bearerAuth({ token: envSchema.parse(c.env).ADMIN_TOKEN })(c, next);
+
+app
+  .all("/shelf", adminAuth)
+  .post(
+    validator((v) => ({
+      name: v.body("name").isRequired().message("本棚の名前がありません。"),
+    })),
+    async (c) => {
+      const shelfId = uuidv4();
+      const shelfName = c.req.valid().name;
+      try {
+        await c.env.DB.prepare(
+          `INSERT INTO shelves (shelf_id, shelf_name, acl_group_id)
          VALUES(?, ?, (SELECT acl_group_id FROM acls WHERE acl_group_id = ?));`
-      )
-        .bind(shelfId, shelfName, "default")
-        .run();
-      c.status(201);
-    } catch (e) {
-      const errorCode = getD1ErrorCode(e);
-      if (errorCode === "SQLITE_CONSTRAINT_NOTNULL") {
-        c.status(400);
-        return c.body("この権限は利用できません。");
+        )
+          .bind(shelfId, shelfName, "default")
+          .run();
+        c.status(201);
+      } catch (e) {
+        const errorCode = getD1ErrorCode(e);
+        if (errorCode === "SQLITE_CONSTRAINT_NOTNULL") {
+          c.status(400);
+          return c.body("この権限は利用できません。");
+        }
+        c.status(500);
+        return c.json({
+          error: errorCode,
+        });
       }
+      return c.json({ shelfId, shelfName });
+    }
+  )
+  .get(async (c) => {
+    try {
+      const results =
+        (
+          await c.env.DB.prepare(
+            `SELECT shelf_id, shelf_name FROM shelves;`
+          ).all<{
+            shelf_id: string;
+            shelf_name: string;
+          }>()
+        ).results ?? [];
+      if (results.length === 0) {
+        c.status(404);
+      }
+      return c.json(results);
+    } catch (e) {
       c.status(500);
       return c.json({
-        error: errorCode,
+        error: getD1ErrorCode(e),
       });
     }
-    return c.json({ shelfId, shelfName });
-  }
-);
+  });
 
 app
   .get(`/shelf/${SHELF_PARAM_NAME}`, async (c) => {
@@ -78,6 +108,7 @@ app
     }
   })
   .put(
+    adminAuth,
     validator((v) => ({
       name: v.body("name").isRequired().message("本棚の名前がありません。"),
     })),
@@ -104,7 +135,7 @@ app
       return c.json({ shelfId, shelfName });
     }
   )
-  .delete(async (c) => {
+  .delete(adminAuth, async (c) => {
     const shelfId = c.req.param("shelf");
     c.status(204);
     try {
