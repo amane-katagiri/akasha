@@ -41,7 +41,7 @@ app
       try {
         await c.env.DB.prepare(
           `INSERT INTO shelves (shelf_id, shelf_name, acl_group_id)
-         VALUES(?, ?, (SELECT acl_group_id FROM acls WHERE acl_group_id = ?));`
+           VALUES(?, ?, (SELECT acl_group_id FROM acls WHERE acl_group_id = ?));`
         )
           .bind(shelfId, shelfName, "default")
           .run();
@@ -147,7 +147,7 @@ app
           ).bind(shelfId),
           c.env.DB.prepare(
             `DELETE FROM books WHERE
-            shelf_id = (SELECT shelf_id FROM shelves WHERE shelf_id = ?)`
+             shelf_id = (SELECT shelf_id FROM shelves WHERE shelf_id = ?)`
           ).bind(shelfId),
         ])
       )[0] as unknown as { results?: { changes?: number } };
@@ -185,16 +185,16 @@ app
           await c.env.DB.prepare(
             book !== null
               ? `INSERT INTO books (shelf_id, isbn, title, source, raw)
-             VALUES ((SELECT shelf_id FROM shelves WHERE shelf_id = ?1), ?2, ?3, ?4, ?5)
-             ON CONFLICT DO UPDATE SET shelf_id = ?1, isbn = ?2, title = ?3,
-             source = ?4, raw = ?5, updated_at = DATETIME('now', 'localtime');`
+                 VALUES ((SELECT shelf_id FROM shelves WHERE shelf_id = ?1), ?2, ?3, ?4, ?5)
+                 ON CONFLICT DO UPDATE SET shelf_id = ?1, isbn = ?2, title = ?3,
+                 source = ?4, raw = ?5, updated_at = DATETIME('now', 'localtime');`
               : title !== undefined
               ? `INSERT INTO books (shelf_id, isbn, title, source, raw)
-             VALUES ((SELECT shelf_id FROM shelves WHERE shelf_id = ?1), ?2, ?3, ?4, ?5)
-             ON CONFLICT DO UPDATE SET shelf_id = ?1, isbn = ?2, title = ?3,
-             updated_at = DATETIME('now', 'localtime');`
+                 VALUES ((SELECT shelf_id FROM shelves WHERE shelf_id = ?1), ?2, ?3, ?4, ?5)
+                 ON CONFLICT DO UPDATE SET shelf_id = ?1, isbn = ?2, title = ?3,
+                 updated_at = DATETIME('now', 'localtime');`
               : `INSERT OR IGNORE INTO books (shelf_id, isbn, title, source, raw)
-             VALUES ((SELECT shelf_id FROM shelves WHERE shelf_id = ?1), ?2, ?3, ?4, ?5);`
+                 VALUES ((SELECT shelf_id FROM shelves WHERE shelf_id = ?1), ?2, ?3, ?4, ?5);`
           )
             .bind(
               shelfId,
