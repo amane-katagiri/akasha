@@ -182,7 +182,7 @@ app
         const book = await getBookInfo(isbn, envSchema.parse(c.env));
 
         try {
-          const result = (await c.env.DB.prepare(
+          await c.env.DB.prepare(
             book !== null
               ? `INSERT INTO books (shelf_id, isbn, title, source, raw)
              VALUES ((SELECT shelf_id FROM shelves WHERE shelf_id = ?1), ?2, ?3, ?4, ?5)
@@ -203,17 +203,11 @@ app
               book?.source,
               JSON.stringify(book?.raw)
             )
-            .run()) as unknown as { changes: number };
+            .run();
           return c.body(
-            book !== null
-              ? `「${book.title}」を登録・更新しました。`
-              : (result?.changes ?? 0) === 0
-              ? "本の情報がありませんでした。更新をスキップします。"
-              : `本の情報がありませんでした。ISBN:${isbn}${
-                  title === undefined
-                    ? "のみ登録します。"
-                    : "とタイトルを登録・更新します。"
-                }`
+            book !== null || title !== undefined
+              ? `「${book?.title ?? title}」を登録・更新しました。`
+              : `本の情報がありませんでした。ISBN:${isbn}のみ登録・更新します。`
           );
         } catch (e) {
           const errorCode = getD1ErrorCode(e);
