@@ -292,7 +292,7 @@
                   "LanguageRole": {
                     "description": "言語コード",
                     "type": "string",
-                    "pattern": "^01$"
+                    "pattern": "^01$|^02$"
                   },
                   "CountryCode": {
                     "description": "国コード",

@@ -230,7 +230,7 @@ export const schema = z
                     LanguageCode: z.string().describe("価格の種類").optional(),
                     LanguageRole: z
                       .string()
-                      .regex(new RegExp("^01$"))
+                      .regex(new RegExp("^01$|^02$"))
                       .describe("言語コード")
                       .optional(),
                     CountryCode: z.string().describe("国コード").optional(),
