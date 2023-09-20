@@ -1,1 +1,1159 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "type": "object", "additionalProperties": false, "properties": {"onix": {"$schema": "http://json-schema.org/draft-04/schema#", "type": "object", "additionalProperties": false, "properties": {"ProductIdentifier": {"description": "識別情報(ISBN)", "type": "object", "additionalProperties": false, "properties": {"ProductIDType": {"description": "IDの種類[ISBN固定]", "type": "string", "pattern": "^15$"}, "IDValue": {"description": "ISBN（13桁）", "type": "string", "pattern": "([0-9]+)"}}}, "RecordReference": {"description": "ISBN（13桁）", "type": "string"}, "PublishingDetail": {"description": "出版社に関する情報", "type": "object", "additionalProperties": false, "properties": {"PublishingStatus": {"description": "長期品切情報:長期品切れの場合、08:Inactiveを記入", "type": "string", "pattern": "^08$"}, "PublishingDate": {"description": "商品の出版に関する日付情報", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"PublishingDateRole": {"description": "発売日の種類", "type": "string", "pattern": "^([0-9]{2})$"}, "Date": {"description": "発売日", "type": "string"}}}}, "Imprint": {"description": "「発行元出版社」に関する情報", "type": "object", "additionalProperties": false, "properties": {"ImprintName": {"description": "「発行元出版社」名", "type": "string"}, "ImprintIdentifier": {"description": "「発行元出版社」コード", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"IDValue": {"description": "ID", "type": "string"}, "ImprintIDType": {"description": "IDタイプ", "type": "string"}}}}}}, "Publisher": {"description": "「発行元出版社」と異なる場合、「発売元出版社」についての情報", "type": "object", "additionalProperties": false, "properties": {"PublishingRole": {"description": "Publisher 【出版社】 に固定", "type": "string"}, "PublisherName": {"description": "「発売元出版社」名", "type": "string"}, "PublisherIdentifier": {"description": "「発売元出版社」コード", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"IDValue": {"description": "ID", "type": "string"}, "PublisherIDType": {"description": "IDタイプ", "type": "string"}}}}}}}}, "NotificationType": {"description": "削除フラグ", "type": "string", "pattern": "^03$|^02$"}, "ProductSupply": {"description": "市場における商品の出版状況、供給等", "type": "object", "additionalProperties": false, "properties": {"MarketPublishingDetail": {"description": "扱い社に関する情報", "type": "object", "additionalProperties": false, "properties": {"MarketPublishingStatus": {"description": "00:Unspecifiedを記入する", "type": "string", "pettern": "^00$"}, "MarketPublishingStatusNote": {"description": "取次会社取り扱いと配本の有無について", "type": "string"}, "PublisherRepresentative": {"description": "扱い社", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"AgentRole": {"description": "08扱い社に固定", "type": "string", "pettern": "^08$"}, "AgentName": {"description": "扱い社名", "type": "string"}, "AgentIdentifier": {"description": "扱い社コード", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"AgentIDType": {"description": "01:独自コードに固定", "type": "string", "pettern": "^01$"}, "IDTypeName": {"description": "コードの名前", "type": "string", "pettern": "^取引コード$"}, "IDValue": {"description": "コード", "type": "string"}}}}}}}}}, "SupplyDetail": {"description": "商品のアベイラビリテイ（入手可能性）や価格、その他の供給状況", "type": "object", "additionalProperties": false, "properties": {"ReturnsConditions": {"description": "返品条件について", "type": "object", "additionalProperties": false, "properties": {"ReturnsCodeType": {"description": "「ONIX返品条件コード」 に固定", "type": "string"}, "ReturnsCode": {"description": "条件コード", "type": "string"}}}, "ProductAvailability": {"description": "「近刊情報センター」では、99に固定", "type": "string", "pattern": "^99$"}, "Price": {"description": "価格（単価）について", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"PriceType": {"description": "価格タイプ", "type": "string"}, "PriceAmount": {"description": "価格", "type": "string"}, "CurrencyCode": {"description": "通貨", "type": "string"}, "PriceDate": {"description": "特価期限", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"PriceDateRole": {"description": "価格の種類", "type": "string"}, "Date": {"description": "日付", "type": "string"}, "Price": {"description": "価格", "type": "string"}}}}}}}}}}}, "DescriptiveDetail": {"description": "商品に関する情報", "type": "object", "additionalProperties": false, "properties": {"EditionType": {"description": "版表示 NED: 新版（New Edition）に固定する。", "type": "string", "pattern": "^NED$"}, "EditionStatement": {"description": "版表示 版表示を文字列で記入する。", "type": "string"}, "Language": {"description": "表記に利用する言語", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"LanguageCode": {"description": "価格の種類", "type": "string"}, "LanguageRole": {"description": "言語コード", "type": "string", "pattern": "^01$"}, "CountryCode": {"description": "国コード", "type": "string"}}}}, "TitleDetail": {"description": "商品の「書名」を設定", "type": "object", "additionalProperties": false, "properties": {"TitleType": {"description": "タイトルの種類[01に固定]", "type": "string", "pattern": "^01$"}, "TitleElement": {"description": "タイトルの要素", "type": "object", "additionalProperties": false, "properties": {"TitleElementLevel": {"description": "タイトルのレベル[01に固定]", "type": "string", "pattern": "^01$"}, "TitleText": {"description": "書名", "type": "object", "additionalProperties": false, "properties": {"collationkey": {"description": "読み仮名", "type": "string"}, "content": {"description": "書名", "type": "string"}}}, "Subtitle": {"description": "サブタイトル", "type": "object", "additionalProperties": false, "properties": {"collationkey": {"description": "読み仮名", "type": "string"}, "content": {"description": "書名", "type": "string"}}}, "PartNumber": {"description": "シリーズ巻次:<TitleElementLevel>毎に該当する巻次があれば、文字列として記入する", "type": "string"}}}}}, "ProductForm": {"description": "判型", "type": "string"}, "ProductFormDetail": {"description": "判型の詳細コード", "type": "string"}, "Collection": {"description": "シリーズに関する情報", "type": "object", "additionalProperties": false, "properties": {"CollectionType": {"description": "種類コード[10に固定]", "type": "string", "pattern": "^10$"}, "CollectionSequence": {"description": "「配本回数」について（複数に変更されたため互換性のために維持→CollectionSequenceArrayを参照してください）", "type": "object", "additionalProperties": false, "properties": {"CollectionSequenceType": {"description": "配本回数コード[01:完結フラグ,03:配本回数]", "type": "string", "pattern": "^03$|^01$"}, "CollectionSequenceTypeName": {"description": "コードが完結フラグの場合、完結フラグと記入する", "type": "string"}, "CollectionSequenceNumber": {"description": "配本回数", "type": "string"}}}, "CollectionSequenceArray": {"description": "「配本回数」について", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"CollectionSequenceType": {"description": "配本回数コード[01:完結フラグ,03:配本回数]", "type": "string", "pattern": "^03$|^01$"}, "CollectionSequenceTypeName": {"description": "コードが完結フラグの場合、完結フラグと記入する", "type": "string"}, "CollectionSequenceNumber": {"description": "配本回数", "type": "string"}}}}, "TitleDetail": {"description": "シリーズタイトル", "type": "object", "additionalProperties": false, "properties": {"TitleType": {"description": "タイトルの種類[01に固定]", "type": "string", "pattern": "^01$"}, "TitleElement": {"description": "シリーズ・レーベルの名前", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"TitleElementLevel": {"description": "シリーズの種類", "type": "string", "pattern": "^01$|^02$|^03$"}, "TitleText": {"description": "シリーズ名", "type": "object", "additionalProperties": false, "properties": {"collationkey": {"description": "読み仮名", "type": "string"}, "content": {"description": "タイトル", "type": "string"}}}, "PartNumber": {"description": "シリーズの巻次", "type": "string"}}}}}}}}, "Extent": {"description": "商品に関連する（数値的）範囲、程度など", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"ExtentType": {"description": "数値の種類[11はページ数]", "type": "string", "pettern": "^11$"}, "ExtentUnit": {"description": "単位[03ページに固定]", "type": "string", "pettern": "^03$"}, "ExtentValue": {"description": "値", "type": "string"}}}}, "Measure": {"description": "タテ・ヨコの実寸", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"MeasureType": {"description": "数値の種類[01縦/02横]", "type": "string", "pettern": "^01$|^02$"}, "MeasureUnitCode": {"description": "単位[mmに固定]", "type": "string", "pettern": "^mm$"}, "Measurement": {"description": "値", "type": "string"}}}}, "Contributor": {"description": "商品の著者情報", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"ContributorRole": {"description": "著者区分", "type": "array", "items": {"type": "string"}}, "SequenceNumber": {"description": "表示順序", "type": "string"}, "PersonName": {"description": "著者名", "type": "object", "additionalProperties": false, "properties": {"collationkey": {"description": "読み仮名", "type": "string"}, "content": {"description": "タイトル", "type": "string"}}}, "BiographicalNote": {"description": "著者略歴", "type": "string"}}}}, "ProductComposition": {"description": "セット商品分売可否", "type": "string"}, "Audience": {"description": "商品の対象読者を示す方法", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"AudienceCodeType": {"description": "読者コード種類", "type": "string"}, "AudienceCodeValue": {"description": "読者コード", "type": "string"}}}}, "Subject": {"description": "商品の主題、テーマ、カテゴリなど", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"SubjectSchemeIdentifier": {"description": "カテゴリ", "type": "string"}, "SubjectCode": {"description": "78 or 79 の場合に、「Cコード」または「ジャンルコード」", "type": "string"}, "MainSubject": {"description": "メーンとなるSubjectのカテゴリ", "type": "string"}, "SubjectHeadingText": {"description": "キーワード", "type": "string"}, "SubjectSchemeVersion": {"description": "NDC分類の場合、使用した分類の版（テキスト）", "type": "string"}, "sourcename": {"description": "コードを付与したもの。NDL/JPO/出版社など", "type": "string"}}}}, "ProductPart": {"description": "付録の有無", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"NumberOfItemsOfThisForm": {"description": "付録の数量[1に固定]", "type": "string"}, "ProductForm": {"description": "付録コード[00に固定]", "type": "string"}, "ProductFormDescription": {"description": "付録の内容", "type": "string"}}}}}}, "RelatedMaterial": {"description": "旧版商品ISBN", "type": "array", "additionalProperties": false, "items": {"type": "object", "additionalProperties": false, "properties": {"RelatedProduct": {"type": "object", "additionalProperties": false, "description": "旧版の商品が存在する場合にその商品のISBNを設定する。", "properties": {"ProductRelationCode": {"description": "コード 03：Replacesに固定する", "type": "string", "pettern": "^03$"}, "ProductIdentifier": {"type": "object", "additionalProperties": false, "properties": {"ProductIDType": {"description": "IDの種類[ISBN固定]", "type": "string", "pattern": "^15$"}, "IDValue": {"description": "ISBN（13桁）", "type": "string", "pattern": "([0-9]+)"}}}}}}}}, "CollateralDetail": {"description": "商品の付帯項目", "type": "object", "additionalProperties": false, "properties": {"SupportingResource": {"description": "ONIXデータを補助する販促情報や追加情報などのデジタルデータ", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"ResourceContentType": {"description": "種類[01書影07商品イメージ]", "type": "string", "pattern": "^01$|^07$"}, "ResourceMode": {"description": "[03静止画に固定]", "type": "string"}, "ContentAudience": {"description": "[01に固定]", "type": "string"}, "ResourceVersion": {"description": "補助リソースのバージョン", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"ResourceLink": {"description": "フルURI", "type": "string", "pattern": "^https:\\/\\/cover.openbd.jp\\/"}, "ResourceForm": {"description": "[02に固定]", "type": "string"}, "ResourceVersionFeature": {"description": "ファイル名とファイル形式", "type": "array"}}}}}}}, "TextContent": {"description": "内容紹介", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"Text": {"description": "テキスト", "type": "string"}, "TextType": {"description": "種類コード", "type": "string", "pattern": "^02$|^03$|^04$|^23$"}, "ContentAudience": {"description": "意図されている読者", "type": "string"}}}}}}}}, "hanmoto": {"description": "版元独自書誌", "type": "object", "properties": {"datekoukai": {"description": "公開日", "type": "string", "format": "date-time"}, "datemodified": {"description": "最終更新日", "type": "string", "format": "date-time"}, "datecreated": {"description": "最終作成日", "type": "string", "format": "date-time"}, "dateshuppan": {"description": "出版日", "type": "string"}, "dokushakakikomipagesuu": {"description": "読者書き込みページ数", "type": "number"}, "kubunhanbai": {"description": "販売区分", "type": "boolean"}, "toji": {"description": "本の綴じ方", "type": "string"}, "zaiko": {"description": "在庫ステータス", "type": "number"}, "han": {"description": "版", "type": "string"}, "genrecodetrc": {"description": "TRC用ジャンルコード", "type": "number"}, "genrecodetrcjidou": {"description": "TRC用児童ジャンルコード", "type": "number"}, "bikoutrc": {"description": "TRC用備考", "type": "string"}, "ndccode": {"description": "NDC(日本十進分類法)", "type": "string"}, "kaisetsu105w": {"description": "105文字程度の解説", "type": "string"}, "hanmotokarahitokoto": {"description": "版元からひとこと", "type": "string"}, "kankoukeitai": {"description": "刊行形態", "type": "string"}, "lanove": {"description": "ラノベフラグ", "type": "boolean"}, "maegakinado": {"description": "まえがきなど", "type": "string"}, "hastameshiyomi": {"description": "試し読みフラグ", "type": "boolean"}, "datezeppan": {"description": "絶版日", "type": "string"}, "jushoujouhou": {"description": "受賞情報", "type": "string"}, "datejuuhanyotei": {"description": "重版予定日", "type": "string"}, "genshomei": {"description": "原書名", "type": "string"}, "kanrensho": {"description": "関連書", "type": "string"}, "tsuiki": {"description": "追記", "type": "string"}, "obinaiyou": {"description": "帯の内容", "type": "string"}, "rubynoumu": {"description": "ルビの有無", "type": "boolean"}, "furokusonota": {"description": "付録その他", "type": "string"}, "furoku": {"description": "付録コード", "type": "number"}, "zasshicode": {"description": "雑誌コード", "type": "string"}, "ruishokyougousho": {"description": "類書・競合書", "type": "string"}, "sonotatokkijikou": {"description": "その他の特記事項", "type": "string"}, "gatsugougousuu": {"description": "月号・号数", "type": "string"}, "dokushakakikomi": {"description": "読者書き込み", "type": "string"}, "kanrenshoisbn": {"description": "関連書ISBN", "type": "string"}, "bessoushiryou": {"description": "別称資料?", "type": "string"}, "jyuhan": {"description": "重版情報", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"date": {"description": "重版日", "type": "string", "format": "date-time"}, "ctime": {"description": "更新日時", "type": "string", "format": "date-time"}, "suri": {"description": "刷数", "type": "number"}, "comment": {"description": "コメント", "type": "string"}}, "required": ["date"]}}, "author": {"description": "著者補足情報", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"dokujikubun": {"description": "独自区分", "type": "string"}, "listseq": {"description": "リストの番号", "type": "number"}}, "required": ["dokujikubun", "listseq"]}}, "reviews": {"description": "書評情報", "type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"han": {"description": "版", "type": "string"}, "appearance": {"description": "書評掲載日", "type": "string"}, "post_user": {"description": "投稿ユーザー", "type": "string"}, "kubun_id": {"description": "区分ID", "type": "number"}, "source": {"description": "情報源", "type": "string"}, "choyukan": {"description": "朝刊・夕刊", "type": "string"}, "source_id": {"description": "情報源ID", "type": "number"}, "reviewer": {"description": "評者", "type": "string"}, "gou": {"description": "号", "type": "string"}, "link": {"description": "リンク", "type": "string", "format": "url"}}}}, "hanmotoinfo": {"description": "版元情報", "type": "object", "additionalProperties": false, "properties": {"name": {"description": "名前", "type": "string"}, "yomi": {"description": "よみ", "type": "string"}, "url": {"description": "URL", "type": "string"}, "twitter": {"description": "Twitterアドレス", "type": "string"}, "facebook": {"description": "Facebookアドレス", "type": "string"}, "eigyoudaihyousha": {"description": "営業代表者", "type": "string"}, "toritsugisonota": {"description": "不明", "type": "string"}, "toritsugitorikyo": {"description": "不明", "type": "string"}, "phoneshoten": {"description": "不明", "type": "string"}, "facsimileshoten": {"description": "不明", "type": "string"}, "ordersitejisha": {"description": "不明", "type": "string"}, "emailshoten": {"description": "不明", "type": "string"}, "ordersitesonota": {"description": "不明", "type": "string"}, "ordersite": {"description": "不明", "type": "string"}, "henpin": {"description": "不明", "type": "string"}, "chokutori": {"description": "不明", "type": "string"}, "jiyuukinyuu": {"description": "不明", "type": "string"}}}, "hatsubai": {"description": "発売元", "type": "string"}, "hatsubaiyomi": {"description": "発売元よみ", "type": "string"}, "bikoujpo": {"description": "不明", "type": "string"}, "storelink": {"description": "不明", "type": "string"}}, "required": ["datemodified"], "additionalProperties": false}, "summary": {"$schema": "http://json-schema.org/draft-04/schema#", "description": "書誌の概要", "type": "object", "additionalProperties": false, "properties": {"isbn": {"description": "ISBN", "type": "string"}, "title": {"description": "書名", "type": "string"}, "volume": {"description": "巻号", "type": "string"}, "series": {"description": "シリーズ名", "type": "string"}, "author": {"description": "著者名", "type": "string"}, "publisher": {"description": "出版者", "type": "string"}, "pubdate": {"description": "出版年月", "type": "string"}, "cover": {"description": "書影URL", "type": "string"}}, "required": ["isbn", "title", "volume", "series", "author", "publisher", "pubdate", "cover"]}}}
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "onix": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ProductIdentifier": {
+          "description": "識別情報(ISBN)",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ProductIDType": {
+              "description": "IDの種類[ISBN固定]",
+              "type": "string",
+              "pattern": "^15$"
+            },
+            "IDValue": {
+              "description": "ISBN（13桁）",
+              "type": "string",
+              "pattern": "([0-9]+)"
+            }
+          }
+        },
+        "RecordReference": {
+          "description": "ISBN（13桁）",
+          "type": "string"
+        },
+        "PublishingDetail": {
+          "description": "出版社に関する情報",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "PublishingStatus": {
+              "description": "長期品切情報:長期品切れの場合、08:Inactiveを記入",
+              "type": "string",
+              "pattern": "^08$"
+            },
+            "PublishingDate": {
+              "description": "商品の出版に関する日付情報",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "PublishingDateRole": {
+                    "description": "発売日の種類",
+                    "type": "string",
+                    "pattern": "^([0-9]{2})$"
+                  },
+                  "Date": {
+                    "description": "発売日",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Imprint": {
+              "description": "「発行元出版社」に関する情報",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "ImprintName": {
+                  "description": "「発行元出版社」名",
+                  "type": "string"
+                },
+                "ImprintIdentifier": {
+                  "description": "「発行元出版社」コード",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "IDValue": {
+                        "description": "ID",
+                        "type": "string"
+                      },
+                      "ImprintIDType": {
+                        "description": "IDタイプ",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "Publisher": {
+              "description": "「発行元出版社」と異なる場合、「発売元出版社」についての情報",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "PublishingRole": {
+                  "description": "Publisher 【出版社】 に固定",
+                  "type": "string"
+                },
+                "PublisherName": {
+                  "description": "「発売元出版社」名",
+                  "type": "string"
+                },
+                "PublisherIdentifier": {
+                  "description": "「発売元出版社」コード",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "IDValue": {
+                        "description": "ID",
+                        "type": "string"
+                      },
+                      "PublisherIDType": {
+                        "description": "IDタイプ",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "NotificationType": {
+          "description": "削除フラグ",
+          "type": "string",
+          "pattern": "^03$|^02$"
+        },
+        "ProductSupply": {
+          "description": "市場における商品の出版状況、供給等",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "MarketPublishingDetail": {
+              "description": "扱い社に関する情報",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "MarketPublishingStatus": {
+                  "description": "00:Unspecifiedを記入する",
+                  "type": "string",
+                  "pettern": "^00$"
+                },
+                "MarketPublishingStatusNote": {
+                  "description": "取次会社取り扱いと配本の有無について",
+                  "type": "string"
+                },
+                "PublisherRepresentative": {
+                  "description": "扱い社",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "AgentRole": {
+                        "description": "08扱い社に固定",
+                        "type": "string",
+                        "pettern": "^08$"
+                      },
+                      "AgentName": {
+                        "description": "扱い社名",
+                        "type": "string"
+                      },
+                      "AgentIdentifier": {
+                        "description": "扱い社コード",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "AgentIDType": {
+                              "description": "01:独自コードに固定",
+                              "type": "string",
+                              "pettern": "^01$"
+                            },
+                            "IDTypeName": {
+                              "description": "コードの名前",
+                              "type": "string",
+                              "pettern": "^取引コード$"
+                            },
+                            "IDValue": {
+                              "description": "コード",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SupplyDetail": {
+              "description": "商品のアベイラビリテイ（入手可能性）や価格、その他の供給状況",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "ReturnsConditions": {
+                  "description": "返品条件について",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "ReturnsCodeType": {
+                      "description": "「ONIX返品条件コード」 に固定",
+                      "type": "string"
+                    },
+                    "ReturnsCode": {
+                      "description": "条件コード",
+                      "type": "string"
+                    }
+                  }
+                },
+                "ProductAvailability": {
+                  "description": "「近刊情報センター」では、99に固定",
+                  "type": "string",
+                  "pattern": "^99$"
+                },
+                "Price": {
+                  "description": "価格（単価）について",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "PriceType": {
+                        "description": "価格タイプ",
+                        "type": "string"
+                      },
+                      "PriceAmount": {
+                        "description": "価格",
+                        "type": "string"
+                      },
+                      "CurrencyCode": {
+                        "description": "通貨",
+                        "type": "string"
+                      },
+                      "PriceDate": {
+                        "description": "特価期限",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "PriceDateRole": {
+                              "description": "価格の種類",
+                              "type": "string"
+                            },
+                            "Date": {
+                              "description": "日付",
+                              "type": "string"
+                            },
+                            "Price": {
+                              "description": "価格",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "DescriptiveDetail": {
+          "description": "商品に関する情報",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "EditionType": {
+              "description": "版表示 NED: 新版（New Edition）に固定する。",
+              "type": "string",
+              "pattern": "^NED$"
+            },
+            "EditionStatement": {
+              "description": "版表示 版表示を文字列で記入する。",
+              "type": "string"
+            },
+            "Language": {
+              "description": "表記に利用する言語",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "LanguageCode": {
+                    "description": "価格の種類",
+                    "type": "string"
+                  },
+                  "LanguageRole": {
+                    "description": "言語コード",
+                    "type": "string",
+                    "pattern": "^01$"
+                  },
+                  "CountryCode": {
+                    "description": "国コード",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "TitleDetail": {
+              "description": "商品の「書名」を設定",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "TitleType": {
+                  "description": "タイトルの種類[01に固定]",
+                  "type": "string",
+                  "pattern": "^01$"
+                },
+                "TitleElement": {
+                  "description": "タイトルの要素",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "TitleElementLevel": {
+                      "description": "タイトルのレベル[01に固定]",
+                      "type": "string",
+                      "pattern": "^01$"
+                    },
+                    "TitleText": {
+                      "description": "書名",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "collationkey": {
+                          "description": "読み仮名",
+                          "type": "string"
+                        },
+                        "content": {
+                          "description": "書名",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "Subtitle": {
+                      "description": "サブタイトル",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "collationkey": {
+                          "description": "読み仮名",
+                          "type": "string"
+                        },
+                        "content": {
+                          "description": "書名",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "PartNumber": {
+                      "description": "シリーズ巻次:<TitleElementLevel>毎に該当する巻次があれば、文字列として記入する",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "ProductForm": {
+              "description": "判型",
+              "type": "string"
+            },
+            "ProductFormDetail": {
+              "description": "判型の詳細コード",
+              "type": "string"
+            },
+            "Collection": {
+              "description": "シリーズに関する情報",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "CollectionType": {
+                  "description": "種類コード[10に固定]",
+                  "type": "string",
+                  "pattern": "^10$"
+                },
+                "CollectionSequence": {
+                  "description": "「配本回数」について（複数に変更されたため互換性のために維持→CollectionSequenceArrayを参照してください）",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "CollectionSequenceType": {
+                      "description": "配本回数コード[01:完結フラグ,03:配本回数]",
+                      "type": "string",
+                      "pattern": "^03$|^01$"
+                    },
+                    "CollectionSequenceTypeName": {
+                      "description": "コードが完結フラグの場合、完結フラグと記入する",
+                      "type": "string"
+                    },
+                    "CollectionSequenceNumber": {
+                      "description": "配本回数",
+                      "type": "string"
+                    }
+                  }
+                },
+                "CollectionSequenceArray": {
+                  "description": "「配本回数」について",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "CollectionSequenceType": {
+                        "description": "配本回数コード[01:完結フラグ,03:配本回数]",
+                        "type": "string",
+                        "pattern": "^03$|^01$"
+                      },
+                      "CollectionSequenceTypeName": {
+                        "description": "コードが完結フラグの場合、完結フラグと記入する",
+                        "type": "string"
+                      },
+                      "CollectionSequenceNumber": {
+                        "description": "配本回数",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "TitleDetail": {
+                  "description": "シリーズタイトル",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "TitleType": {
+                      "description": "タイトルの種類[01に固定]",
+                      "type": "string",
+                      "pattern": "^01$"
+                    },
+                    "TitleElement": {
+                      "description": "シリーズ・レーベルの名前",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "TitleElementLevel": {
+                            "description": "シリーズの種類",
+                            "type": "string",
+                            "pattern": "^01$|^02$|^03$"
+                          },
+                          "TitleText": {
+                            "description": "シリーズ名",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "collationkey": {
+                                "description": "読み仮名",
+                                "type": "string"
+                              },
+                              "content": {
+                                "description": "タイトル",
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "PartNumber": {
+                            "description": "シリーズの巻次",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "Extent": {
+              "description": "商品に関連する（数値的）範囲、程度など",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "ExtentType": {
+                    "description": "数値の種類[11はページ数]",
+                    "type": "string",
+                    "pettern": "^11$"
+                  },
+                  "ExtentUnit": {
+                    "description": "単位[03ページに固定]",
+                    "type": "string",
+                    "pettern": "^03$"
+                  },
+                  "ExtentValue": {
+                    "description": "値",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Measure": {
+              "description": "タテ・ヨコの実寸",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "MeasureType": {
+                    "description": "数値の種類[01縦/02横]",
+                    "type": "string",
+                    "pettern": "^01$|^02$"
+                  },
+                  "MeasureUnitCode": {
+                    "description": "単位[mmに固定]",
+                    "type": "string",
+                    "pettern": "^mm$"
+                  },
+                  "Measurement": {
+                    "description": "値",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Contributor": {
+              "description": "商品の著者情報",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "ContributorRole": {
+                    "description": "著者区分",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "SequenceNumber": {
+                    "description": "表示順序",
+                    "type": "string"
+                  },
+                  "PersonName": {
+                    "description": "著者名",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "collationkey": {
+                        "description": "読み仮名",
+                        "type": "string"
+                      },
+                      "content": {
+                        "description": "タイトル",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "BiographicalNote": {
+                    "description": "著者略歴",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ProductComposition": {
+              "description": "セット商品分売可否",
+              "type": "string"
+            },
+            "Audience": {
+              "description": "商品の対象読者を示す方法",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "AudienceCodeType": {
+                    "description": "読者コード種類",
+                    "type": "string"
+                  },
+                  "AudienceCodeValue": {
+                    "description": "読者コード",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Subject": {
+              "description": "商品の主題、テーマ、カテゴリなど",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "SubjectSchemeIdentifier": {
+                    "description": "カテゴリ",
+                    "type": "string"
+                  },
+                  "SubjectCode": {
+                    "description": "78 or 79 の場合に、「Cコード」または「ジャンルコード」",
+                    "type": "string"
+                  },
+                  "MainSubject": {
+                    "description": "メーンとなるSubjectのカテゴリ",
+                    "type": "string"
+                  },
+                  "SubjectHeadingText": {
+                    "description": "キーワード",
+                    "type": "string"
+                  },
+                  "SubjectSchemeVersion": {
+                    "description": "NDC分類の場合、使用した分類の版（テキスト）",
+                    "type": "string"
+                  },
+                  "sourcename": {
+                    "description": "コードを付与したもの。NDL/JPO/出版社など",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ProductPart": {
+              "description": "付録の有無",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "NumberOfItemsOfThisForm": {
+                    "description": "付録の数量[1に固定]",
+                    "type": "string"
+                  },
+                  "ProductForm": {
+                    "description": "付録コード[00に固定]",
+                    "type": "string"
+                  },
+                  "ProductFormDescription": {
+                    "description": "付録の内容",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "RelatedMaterial": {
+          "description": "旧版商品ISBN",
+          "type": "array",
+          "additionalProperties": false,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "RelatedProduct": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "旧版の商品が存在する場合にその商品のISBNを設定する。",
+                "properties": {
+                  "ProductRelationCode": {
+                    "description": "コード 03：Replacesに固定する",
+                    "type": "string",
+                    "pettern": "^03$"
+                  },
+                  "ProductIdentifier": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "ProductIDType": {
+                        "description": "IDの種類[ISBN固定]",
+                        "type": "string",
+                        "pattern": "^15$"
+                      },
+                      "IDValue": {
+                        "description": "ISBN（13桁）",
+                        "type": "string",
+                        "pattern": "([0-9]+)"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "CollateralDetail": {
+          "description": "商品の付帯項目",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "SupportingResource": {
+              "description": "ONIXデータを補助する販促情報や追加情報などのデジタルデータ",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "ResourceContentType": {
+                    "description": "種類[01書影07商品イメージ]",
+                    "type": "string",
+                    "pattern": "^01$|^07$"
+                  },
+                  "ResourceMode": {
+                    "description": "[03静止画に固定]",
+                    "type": "string"
+                  },
+                  "ContentAudience": {
+                    "description": "[01に固定]",
+                    "type": "string"
+                  },
+                  "ResourceVersion": {
+                    "description": "補助リソースのバージョン",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "ResourceLink": {
+                          "description": "フルURI",
+                          "type": "string",
+                          "pattern": "^https:\\/\\/cover.openbd.jp\\/"
+                        },
+                        "ResourceForm": {
+                          "description": "[02に固定]",
+                          "type": "string"
+                        },
+                        "ResourceVersionFeature": {
+                          "description": "ファイル名とファイル形式",
+                          "type": "array"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "TextContent": {
+              "description": "内容紹介",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "Text": {
+                    "description": "テキスト",
+                    "type": "string"
+                  },
+                  "TextType": {
+                    "description": "種類コード",
+                    "type": "string",
+                    "pattern": "^02$|^03$|^04$|^23$"
+                  },
+                  "ContentAudience": {
+                    "description": "意図されている読者",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "hanmoto": {
+      "description": "版元独自書誌",
+      "type": "object",
+      "properties": {
+        "datekoukai": {
+          "description": "公開日",
+          "type": "string",
+          "format": "date-time"
+        },
+        "datemodified": {
+          "description": "最終更新日",
+          "type": "string",
+          "format": "date-time"
+        },
+        "datecreated": {
+          "description": "最終作成日",
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateshuppan": {
+          "description": "出版日",
+          "type": "string"
+        },
+        "dokushakakikomipagesuu": {
+          "description": "読者書き込みページ数",
+          "type": "number"
+        },
+        "kubunhanbai": {
+          "description": "販売区分",
+          "type": "boolean"
+        },
+        "toji": {
+          "description": "本の綴じ方",
+          "type": "string"
+        },
+        "zaiko": {
+          "description": "在庫ステータス",
+          "type": "number"
+        },
+        "han": {
+          "description": "版",
+          "type": "string"
+        },
+        "genrecodetrc": {
+          "description": "TRC用ジャンルコード",
+          "type": "number"
+        },
+        "genrecodetrcjidou": {
+          "description": "TRC用児童ジャンルコード",
+          "type": "number"
+        },
+        "bikoutrc": {
+          "description": "TRC用備考",
+          "type": "string"
+        },
+        "ndccode": {
+          "description": "NDC(日本十進分類法)",
+          "type": "string"
+        },
+        "kaisetsu105w": {
+          "description": "105文字程度の解説",
+          "type": "string"
+        },
+        "hanmotokarahitokoto": {
+          "description": "版元からひとこと",
+          "type": "string"
+        },
+        "kankoukeitai": {
+          "description": "刊行形態",
+          "type": "string"
+        },
+        "lanove": {
+          "description": "ラノベフラグ",
+          "type": "boolean"
+        },
+        "maegakinado": {
+          "description": "まえがきなど",
+          "type": "string"
+        },
+        "hastameshiyomi": {
+          "description": "試し読みフラグ",
+          "type": "boolean"
+        },
+        "datezeppan": {
+          "description": "絶版日",
+          "type": "string"
+        },
+        "jushoujouhou": {
+          "description": "受賞情報",
+          "type": "string"
+        },
+        "datejuuhanyotei": {
+          "description": "重版予定日",
+          "type": "string"
+        },
+        "genshomei": {
+          "description": "原書名",
+          "type": "string"
+        },
+        "kanrensho": {
+          "description": "関連書",
+          "type": "string"
+        },
+        "tsuiki": {
+          "description": "追記",
+          "type": "string"
+        },
+        "obinaiyou": {
+          "description": "帯の内容",
+          "type": "string"
+        },
+        "rubynoumu": {
+          "description": "ルビの有無",
+          "type": "boolean"
+        },
+        "furokusonota": {
+          "description": "付録その他",
+          "type": "string"
+        },
+        "furoku": {
+          "description": "付録コード",
+          "type": "number"
+        },
+        "zasshicode": {
+          "description": "雑誌コード",
+          "type": "string"
+        },
+        "ruishokyougousho": {
+          "description": "類書・競合書",
+          "type": "string"
+        },
+        "sonotatokkijikou": {
+          "description": "その他の特記事項",
+          "type": "string"
+        },
+        "gatsugougousuu": {
+          "description": "月号・号数",
+          "type": "string"
+        },
+        "dokushakakikomi": {
+          "description": "読者書き込み",
+          "type": "string"
+        },
+        "kanrenshoisbn": {
+          "description": "関連書ISBN",
+          "type": "string"
+        },
+        "bessoushiryou": {
+          "description": "別称資料?",
+          "type": "string"
+        },
+        "jyuhan": {
+          "description": "重版情報",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "date": {
+                "description": "重版日",
+                "type": "string",
+                "format": "date-time"
+              },
+              "ctime": {
+                "description": "更新日時",
+                "type": "string",
+                "format": "date-time"
+              },
+              "suri": {
+                "description": "刷数",
+                "type": "number"
+              },
+              "comment": {
+                "description": "コメント",
+                "type": "string"
+              }
+            },
+            "required": [
+              "date"
+            ]
+          }
+        },
+        "author": {
+          "description": "著者補足情報",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "dokujikubun": {
+                "description": "独自区分",
+                "type": "string"
+              },
+              "listseq": {
+                "description": "リストの番号",
+                "type": "number"
+              }
+            },
+            "required": [
+              "dokujikubun",
+              "listseq"
+            ]
+          }
+        },
+        "reviews": {
+          "description": "書評情報",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "han": {
+                "description": "版",
+                "type": "string"
+              },
+              "appearance": {
+                "description": "書評掲載日",
+                "type": "string"
+              },
+              "post_user": {
+                "description": "投稿ユーザー",
+                "type": "string"
+              },
+              "kubun_id": {
+                "description": "区分ID",
+                "type": "number"
+              },
+              "source": {
+                "description": "情報源",
+                "type": "string"
+              },
+              "choyukan": {
+                "description": "朝刊・夕刊",
+                "type": "string"
+              },
+              "source_id": {
+                "description": "情報源ID",
+                "type": "number"
+              },
+              "reviewer": {
+                "description": "評者",
+                "type": "string"
+              },
+              "gou": {
+                "description": "号",
+                "type": "string"
+              },
+              "link": {
+                "description": "リンク",
+                "type": "string",
+                "format": "url"
+              }
+            }
+          }
+        },
+        "hanmotoinfo": {
+          "description": "版元情報",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "description": "名前",
+              "type": "string"
+            },
+            "yomi": {
+              "description": "よみ",
+              "type": "string"
+            },
+            "url": {
+              "description": "URL",
+              "type": "string"
+            },
+            "twitter": {
+              "description": "Twitterアドレス",
+              "type": "string"
+            },
+            "facebook": {
+              "description": "Facebookアドレス",
+              "type": "string"
+            },
+            "eigyoudaihyousha": {
+              "description": "営業代表者",
+              "type": "string"
+            },
+            "toritsugisonota": {
+              "description": "不明",
+              "type": "string"
+            },
+            "toritsugitorikyo": {
+              "description": "不明",
+              "type": "string"
+            },
+            "phoneshoten": {
+              "description": "不明",
+              "type": "string"
+            },
+            "facsimileshoten": {
+              "description": "不明",
+              "type": "string"
+            },
+            "ordersitejisha": {
+              "description": "不明",
+              "type": "string"
+            },
+            "emailshoten": {
+              "description": "不明",
+              "type": "string"
+            },
+            "ordersitesonota": {
+              "description": "不明",
+              "type": "string"
+            },
+            "ordersite": {
+              "description": "不明",
+              "type": "string"
+            },
+            "henpin": {
+              "description": "不明",
+              "type": "string"
+            },
+            "chokutori": {
+              "description": "不明",
+              "type": "string"
+            },
+            "jiyuukinyuu": {
+              "description": "不明",
+              "type": "string"
+            }
+          }
+        },
+        "hatsubai": {
+          "description": "発売元",
+          "type": "string"
+        },
+        "hatsubaiyomi": {
+          "description": "発売元よみ",
+          "type": "string"
+        },
+        "bikoujpo": {
+          "description": "不明",
+          "type": "string"
+        },
+        "storelink": {
+          "description": "不明",
+          "type": "string"
+        }
+      },
+      "required": [
+        "datemodified"
+      ],
+      "additionalProperties": false
+    },
+    "summary": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "description": "書誌の概要",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isbn": {
+          "description": "ISBN",
+          "type": "string"
+        },
+        "title": {
+          "description": "書名",
+          "type": "string"
+        },
+        "volume": {
+          "description": "巻号",
+          "type": "string"
+        },
+        "series": {
+          "description": "シリーズ名",
+          "type": "string"
+        },
+        "author": {
+          "description": "著者名",
+          "type": "string"
+        },
+        "publisher": {
+          "description": "出版者",
+          "type": "string"
+        },
+        "pubdate": {
+          "description": "出版年月",
+          "type": "string"
+        },
+        "cover": {
+          "description": "書影URL",
+          "type": "string"
+        }
+      },
+      "required": [
+        "isbn",
+        "title",
+        "volume",
+        "series",
+        "author",
+        "publisher",
+        "pubdate",
+        "cover"
+      ]
+    }
+  }
+}
