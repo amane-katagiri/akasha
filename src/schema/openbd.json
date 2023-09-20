@@ -1102,8 +1102,7 @@
       },
       "required": [
         "datemodified"
-      ],
-      "additionalProperties": false
+      ]
     },
     "summary": {
       "$schema": "http://json-schema.org/draft-04/schema#",

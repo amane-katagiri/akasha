@@ -768,7 +768,6 @@ export const schema = z
         bikoujpo: z.string().describe("不明").optional(),
         storelink: z.string().describe("不明").optional(),
       })
-      .strict()
       .describe("版元独自書誌")
       .optional(),
     summary: z
