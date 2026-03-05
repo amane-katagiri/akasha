@@ -7,7 +7,7 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
-    "better-sqlite3": "^7.6.2",
+    "better-sqlite3": "^12.6.2",
     "eslint": "^8.31.0",
     "eslint-plugin-import": "^2.26.0",
     "json-schema-to-zod": "^0.6.1",
