@@ -28,7 +28,12 @@ export const getBookInfo = async (
       raw: openBd,
     };
   }
-  const rakuten = await getBookInfoByRakuten(isbn, env.RAKUTEN_APP_ID);
+  const rakuten = await getBookInfoByRakuten(
+    isbn,
+    env.RAKUTEN_APP_ID,
+    env.RAKUTEN_APP_ACCESS_KEY,
+    env.RAKUTEN_APP_ORIGIN,
+  );
   if (rakuten.Items !== undefined && rakuten.Items.length !== 0) {
     return {
       title: rakuten.Items[0].Item.title,
@@ -52,13 +57,18 @@ const getBookInfoByOpenBd = async (isbn: string) =>
           `${OPENBD_API_ROOT}/get?` +
             new URLSearchParams({
               isbn: isbn,
-            })
+            }),
         )
-      ).json()
+      ).json(),
     );
 
-const RAKUTEN_API_ROOT = "https://app.rakuten.co.jp/services/api";
-const getBookInfoByRakuten = async (isbn: string, appId: string) =>
+const RAKUTEN_API_ROOT = "https://openapi.rakuten.co.jp/services/api";
+const getBookInfoByRakuten = async (
+  isbn: string,
+  appId: string,
+  appAccessKey: string,
+  appOrigin: string,
+) =>
   rakutenSchema.parse(
     await (
       await fetch(
@@ -66,7 +76,14 @@ const getBookInfoByRakuten = async (isbn: string, appId: string) =>
           new URLSearchParams({
             applicationId: appId,
             isbn: isbn,
-          })
+            accessKey: appAccessKey,
+          }),
+        {
+          headers: {
+            Origin: appOrigin,
+            Authorization: `Bearer ${appAccessKey}`,
+          },
+        },
       )
     ).json()
   );
